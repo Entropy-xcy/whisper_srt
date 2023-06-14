@@ -1,0 +1,5 @@
+datetime
+openai-whisper
+argparse
+langchain
+tqdm
