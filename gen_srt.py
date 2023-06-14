@@ -31,7 +31,7 @@ def get_translate_chain(from_lang, to_lang):
     return chain
 
 
-def gen_srt(video_path, model_name="medium", from_language="Japanese", to_language="Chinese", embed=False, translate=True):
+def gen_srt(video_path, model_name="medium", from_language="English", to_language="Chinese", embed=False, translate=True):
     with tempfile.TemporaryDirectory() as temp_dir:
         # 1. use ffmpeg to extract audio from video and save it to Temp folder
         # Path to the temporary audio file
@@ -51,7 +51,7 @@ def gen_srt(video_path, model_name="medium", from_language="Japanese", to_langua
         # 2. Use whisper to transcribe audio and save segments to srt file
         if translate:
             with get_openai_callback() as cb:
-                chain = get_translate_chain("Japanese", "Chinese")
+                chain = get_translate_chain(from_language, to_language)
                 for segment in tqdm(segments):
                     segment['text'] = chain(segment['text'])['text']
                 print(cb)
