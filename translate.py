@@ -6,12 +6,14 @@ from tqdm import tqdm
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model_id', type=str, default="facebook/m2m100-12B-last-ckpt")
+parser.add_argument('--model_id', type=str, default="facebook/m2m100_1.2B")
 parser.add_argument('--input', type=str)
+parser.add_argument('--src_lang', type=str, default="en")
+parser.add_argument('--tgt_lang', type=str, default="zh")
 args = parser.parse_args()
 
 model_id = args.model_id
-pipeline = transformers.pipeline("translation", model=model_id, src_lang="ja", tgt_lang="zh", device_map="auto", torch_dtype=torch.float16, max_length=1024)
+pipeline = transformers.pipeline("translation", model=model_id, src_lang=args.src_lang, tgt_lang=args.tgt_lang, device_map="auto", torch_dtype=torch.float16, max_length=1024)
 
 cache = {}
 def translate(text):
